@@ -1,26 +1,35 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
+import { Route, Switch } from 'react-router-dom';
+import Courselist from './components/Courses.jsx'
+import Login from './components/Login.jsx'
+import AppHeader from './components/Header.jsx';
 import './App.css';
 
 class App extends Component {
+  
+  state = {}
+  
+  componentDidMount() {
+    try {
+      const user = {'firstName': window.sessionStorage.firstName, 'lastName': window.sessionStorage.lastName}
+
+      this.setState({ user })
+    } 
+    catch (ex) {}
+  }
+  
+
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
+        <React.Fragment>
+          <AppHeader user={this.state.user}  />
+          <main className="content">
+            <Switch>
+              <Route path="/login" component={Login} />
+              <Route path="/" component={Courselist} />
+            </Switch>
+          </main>
+        </React.Fragment>
     );
   }
 }
