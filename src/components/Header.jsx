@@ -3,17 +3,6 @@ import { NavLink, Link } from 'react-router-dom';
 
 const AppHeader = ({user}) => {
 
-  console.log(user)
-
-  // const checkUser = () => {
-  //   if (user) {
-  //     return(
-  //       <nav><span>Welcome {user.firstName} {user.lastName} !</span><NavLink classNameName="signout" to="/signout">Sign Out</NavLink></nav>
-  //   );
-  //   }
-  // }
-
-
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-primary">
       <Link className="navbar-brand" to="/">Courses</Link>
@@ -28,14 +17,14 @@ const AppHeader = ({user}) => {
               <NavLink className="nav-link" to="/login">Login</NavLink>
             </li>
             <li className="nav-item">
-              <NavLink className="nav-link" to="/login">Register</NavLink>
+              <NavLink className="nav-link" to="/register">Register</NavLink>
             </li>
          </React.Fragment>
          )}
          {user && (
          <React.Fragment>
             <li className="nav-item">
-              <NavLink className="nav-link" to="/login">Welcome {user.firstName} {user.lastName}!</NavLink>
+              <NavLink className="nav-link" to="/">Welcome {user.firstName} {user.lastName}!</NavLink>
             </li>
             <li className="nav-item">
               <NavLink className="nav-link" to="/logout">Logout</NavLink>
