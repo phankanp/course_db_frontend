@@ -1,6 +1,6 @@
 import React from "react";
 import Joi from "joi-browser";
-import { login } from "../services/authService";
+import auth from "../services/authService";
 import Form from "./common/form";
 
 class Login extends Form {
@@ -22,8 +22,21 @@ class Login extends Form {
   };
 
   doSubmit = async () => {
-    const { data } = this.state;
-    await login(data.email, data.password);
+    try {
+      const { data } = this.state;
+
+      await auth.login(data.email, data.password);
+
+      window.location = "/";
+    } catch (ex) {
+      if (ex.response && ex.response.status === 400) {
+        console.log(ex.response);
+        const errors = { ...this.state.errors };
+        errors.email = ex.response.data.email;
+        errors.password = ex.response.data.password;
+        this.setState({ errors });
+      }
+    }
 
     console.log("submitted");
   };

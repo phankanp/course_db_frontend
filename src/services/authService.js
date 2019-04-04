@@ -4,8 +4,17 @@ import http from "../services/httpService";
 const loginApiEndpoint = AUTH_SERVER_URL + "login";
 const registerApiEndpoint = AUTH_SERVER_URL + "register";
 
-export function login(email, password) {
-  http.post(loginApiEndpoint, { email, password });
+http.setJwt(getJwt());
+
+export async function login(email, password) {
+  const { data: loginResponse } = await http.post(loginApiEndpoint, {
+    email,
+    password
+  });
+
+  localStorage.setItem("token", loginResponse.token);
+  localStorage.setItem("firstName", loginResponse.firstName);
+  localStorage.setItem("lastName", loginResponse.lastName);
 }
 
 export function register(
@@ -15,7 +24,7 @@ export function register(
   password,
   confirmPassword
 ) {
-  http.post(registerApiEndpoint, {
+  return http.post(registerApiEndpoint, {
     firstName,
     lastName,
     email,
@@ -23,3 +32,32 @@ export function register(
     confirmPassword
   });
 }
+
+export function logout() {
+  localStorage.removeItem("token");
+  localStorage.removeItem("firstName");
+  localStorage.removeItem("lastName");
+}
+
+export function getCurrentUser() {
+  if (localStorage.firstName !== undefined) {
+    const user = {
+      firstName: localStorage.firstName,
+      lastName: localStorage.lastName
+    };
+    return user;
+  } else {
+    return null;
+  }
+}
+
+export function getJwt() {
+  return "Bearer " + localStorage.token;
+}
+
+export default {
+  login,
+  logout,
+  getCurrentUser,
+  getJwt
+};

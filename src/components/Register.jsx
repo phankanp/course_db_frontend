@@ -1,7 +1,8 @@
 import React from "react";
 import Joi from "joi-browser";
-import { register } from "../services/authService";
 import Form from "./common/form";
+import { register } from "../services/authService";
+import auth from "../services/authService";
 
 class Register extends Form {
   state = {
@@ -38,19 +39,34 @@ class Register extends Form {
     confirmPassword: Joi.string()
       .min(6)
       .max(60)
+      .valid(Joi.ref("password"))
       .required()
+      .options({ language: { any: { allowOnly: "must match Password" } } })
       .label("Confirm Password")
   };
 
   doSubmit = async () => {
-    const { data } = this.state;
-    await register(
-      data.firstName,
-      data.lastName,
-      data.email,
-      data.password,
-      data.confirmPassword
-    );
+    try {
+      const { data } = this.state;
+
+      await register(
+        data.firstName,
+        data.lastName,
+        data.email,
+        data.password,
+        data.confirmPassword
+      );
+
+      await auth.login(data.email, data.password);
+
+      window.location = "/";
+    } catch (ex) {
+      if (ex.response && ex.response.status === 400) {
+        const errors = { ...this.state.errors };
+        errors.email = ex.response.data;
+        this.setState({ errors });
+      }
+    }
 
     console.log("submitted");
   };
@@ -75,7 +91,7 @@ class Register extends Form {
           {this.renderInput("email", "email", "Email")}
           {this.renderInput("password", "password", "Enter a password")}
           {this.renderInput("confirmPassword", "password", "Confirm password")}
-          {this.renderButton("Login")}
+          {this.renderButton("Register")}
         </form>
       </div>
     );

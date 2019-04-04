@@ -1,40 +1,58 @@
-import React from 'react';
-import { NavLink, Link } from 'react-router-dom';
+import React from "react";
+import { NavLink } from "react-router-dom";
+import { Navbar } from "react-bootstrap";
 
-const AppHeader = ({user}) => {
-
+const AppHeader = ({ user }) => {
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-primary">
-      <Link className="navbar-brand" to="/">Courses</Link>
-      <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span className="navbar-toggler-icon"></span>
+      <NavLink className="navbar-brand" to="/">
+        Courses
+      </NavLink>
+      <button
+        className="navbar-toggler"
+        type="button"
+        data-toggle="collapse"
+        data-target="#navbarNav"
+        aria-controls="navbarNav"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span className="navbar-toggler-icon" />
       </button>
       <div className="collapse navbar-collapse" id="navbarNav">
         <ul className="navbar-nav ml-auto">
-         {!user && (
-         <React.Fragment>
-            <li className="nav-item">
-              <NavLink className="nav-link" to="/login">Login</NavLink>
-            </li>
-            <li className="nav-item">
-              <NavLink className="nav-link" to="/register">Register</NavLink>
-            </li>
-         </React.Fragment>
-         )}
-         {user && (
-         <React.Fragment>
-            <li className="nav-item">
-              <NavLink className="nav-link" to="/">Welcome {user.firstName} {user.lastName}!</NavLink>
-            </li>
-            <li className="nav-item">
-              <NavLink className="nav-link" to="/logout">Logout</NavLink>
-            </li>
-         </React.Fragment>
-         )}
+          {!user && (
+            <React.Fragment>
+              <li className="nav-item">
+                <NavLink className="nav-link active" to="/login">
+                  Login
+                </NavLink>
+              </li>
+              <li className="nav-item">
+                <NavLink className="nav-link active" to="/register">
+                  Register
+                </NavLink>
+              </li>
+            </React.Fragment>
+          )}
+          {user && (
+            <React.Fragment>
+              <li className="nav-item">
+                <Navbar.Text style={{ color: "white", paddingRight: "10px" }}>
+                  Welcome {user.firstName} {user.lastName}!
+                </Navbar.Text>
+              </li>
+              <li className="nav-item">
+                <NavLink className="nav-link active" to="/logout">
+                  Logout
+                </NavLink>
+              </li>
+            </React.Fragment>
+          )}
         </ul>
       </div>
-    </nav>  
+    </nav>
   );
-}
+};
 
-export default AppHeader
+export default AppHeader;
