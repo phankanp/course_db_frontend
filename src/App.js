@@ -5,6 +5,7 @@ import Login from "./components/Login.jsx";
 import Logout from "./components/Logout.jsx";
 import Register from "./components/Register.jsx";
 import AppHeader from "./components/Header.jsx";
+import CourseDetails from "./components/CourseDetail.jsx";
 import auth from "./services/authService";
 import "./App.css";
 
@@ -25,6 +26,7 @@ class App extends Component {
             <Route path="/login" component={Login} />
             <Route path="/logout" component={Logout} />
             <Route path="/register" component={Register} />
+            <Route path="/courses/:id" component={CourseDetails} />
             <Route path="/" component={Courselist} />
           </Switch>
         </main>

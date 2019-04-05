@@ -67,8 +67,6 @@ class Register extends Form {
         this.setState({ errors });
       }
     }
-
-    console.log("submitted");
   };
 
   render() {
