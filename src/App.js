@@ -8,6 +8,7 @@ import AppHeader from "./components/Header.jsx";
 import CourseDetails from "./components/CourseDetail.jsx";
 import auth from "./services/authService";
 import "./App.css";
+import CourseForm from "./components/CourseForm.jsx";
 
 class App extends Component {
   state = {};
@@ -23,9 +24,10 @@ class App extends Component {
         <AppHeader user={this.state.user} />
         <main className="content">
           <Switch>
+            <Route path="/register" component={Register} />
             <Route path="/login" component={Login} />
             <Route path="/logout" component={Logout} />
-            <Route path="/register" component={Register} />
+            <Route path="/courses/form/:id" component={CourseForm} />
             <Route path="/courses/:id" component={CourseDetails} />
             <Route path="/" component={Courselist} />
           </Switch>

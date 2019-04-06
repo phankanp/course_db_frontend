@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import Axios from "axios";
+import { getCourse } from "../services/courseService";
 const Markdown = require("react-markdown");
 
 class CourseDetails extends Component {
@@ -9,9 +9,7 @@ class CourseDetails extends Component {
   };
 
   async componentDidMount() {
-    const { data: course } = await Axios.get(
-      `http://localhost:8080/api/courses/${this.props.match.params.id}`
-    );
+    const { data: course } = await getCourse(this.props.match.params.id);
 
     this.setState({ course });
   }
