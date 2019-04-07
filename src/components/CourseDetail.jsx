@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import { getCourse } from "../services/courseService";
+import { getCourse, deleteCourse } from "../services/courseService";
+import { toast } from "react-toastify";
 const Markdown = require("react-markdown");
 
 class CourseDetails extends Component {
@@ -31,6 +32,25 @@ class CourseDetails extends Component {
     }
   }
 
+  handleEdit() {
+    this.props.history.push("/courses/form/" + this.state.course.id);
+  }
+
+  async handleDelete() {
+    try {
+      await deleteCourse(this.state.course.id);
+      toast.success("Course has been deleted.");
+      this.props.history.push("/");
+    } catch (ex) {
+      if (ex.response && ex.response.status === 404) {
+        toast.error("Course has already been deleted");
+        this.props.history.push("/");
+      } else if (ex.response && ex.response.status === 403) {
+        toast.error(ex.response.data.errorMessage);
+      }
+    }
+  }
+
   render() {
     return (
       <div className="container">
@@ -41,14 +61,28 @@ class CourseDetails extends Component {
               role="group"
               style={{ paddingRight: "20px" }}
             >
-              <button className="btn btn-primary btn-sm">Update Course</button>
+              <button
+                className="btn btn-primary btn-sm"
+                onClick={() => {
+                  this.handleEdit();
+                }}
+              >
+                Update Course
+              </button>
             </div>
             <div
               className="btn-group"
               role="group"
               style={{ paddingRight: "20px" }}
             >
-              <button className="btn btn-primary btn-sm">Delete Course</button>
+              <button
+                className="btn btn-primary btn-sm"
+                onClick={() => {
+                  this.handleDelete();
+                }}
+              >
+                Delete Course
+              </button>
             </div>
             <div
               className="btn-group"

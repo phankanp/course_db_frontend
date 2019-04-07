@@ -1,57 +1,61 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
-import { Navbar } from "react-bootstrap";
+import { Link } from "react-router-dom";
+import { Navbar, Nav } from "react-bootstrap";
 
 const AppHeader = ({ user }) => {
   return (
-    <nav className="navbar navbar-expand-lg navbar-dark bg-primary">
-      <NavLink className="navbar-brand" to="/">
+    <Navbar collapseOnSelect expand="lg" bg="primary" variant="dark">
+      <Navbar.Brand className="navbar-brand" as={Link} to="/">
+        <i
+          class="fa fa-book"
+          aria-hidden="true"
+          style={{ paddingRight: "6px" }}
+        />
         Courses
-      </NavLink>
-      <button
-        className="navbar-toggler"
-        type="button"
-        data-toggle="collapse"
-        data-target="#navbarNav"
-        aria-controls="navbarNav"
-        aria-expanded="false"
-        aria-label="Toggle navigation"
-      >
-        <span className="navbar-toggler-icon" />
-      </button>
-      <div className="collapse navbar-collapse" id="navbarNav">
-        <ul className="navbar-nav ml-auto">
+      </Navbar.Brand>
+      <Nav className="mr-auto">
+        {user && (
+          <Nav.Link
+            className="nav-item nav-link active"
+            as={Link}
+            to="/courses/form/new"
+          >
+            <i
+              className="fa fa-plus"
+              aria-hidden="true"
+              style={{ paddingRight: "6px" }}
+            />
+            Add New Course
+          </Nav.Link>
+        )}
+      </Nav>
+      <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+      <Navbar.Collapse id="responsive-navbar-nav">
+        <Nav className="mr-auto" />
+        <Nav>
           {!user && (
             <React.Fragment>
-              <li className="nav-item">
-                <NavLink className="nav-link active" to="/login">
-                  Login
-                </NavLink>
-              </li>
-              <li className="nav-item">
-                <NavLink className="nav-link active" to="/register">
-                  Register
-                </NavLink>
-              </li>
+              <Nav.Link className="nav-link active" as={Link} to="/login">
+                Login
+              </Nav.Link>
+              <Nav.Link className="nav-link active" as={Link} to="/register">
+                Register
+              </Nav.Link>
             </React.Fragment>
           )}
           {user && (
             <React.Fragment>
-              <li className="nav-item">
-                <Navbar.Text style={{ color: "white", paddingRight: "10px" }}>
-                  Welcome {user.firstName} {user.lastName}!
-                </Navbar.Text>
-              </li>
-              <li className="nav-item">
-                <NavLink className="nav-link active" to="/logout">
-                  Logout
-                </NavLink>
-              </li>
+              <Navbar.Text style={{ color: "white", paddingRight: "10px" }}>
+                Welcome {user.firstName} {user.lastName}!
+              </Navbar.Text>
+              <Nav.Link className="nav-link active" as={Link} to="/logout">
+                Logout
+              </Nav.Link>
             </React.Fragment>
           )}
-        </ul>
-      </div>
-    </nav>
+        </Nav>
+      </Navbar.Collapse>
+    </Navbar>
   );
 };
 

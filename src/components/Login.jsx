@@ -1,4 +1,5 @@
 import React from "react";
+import { Redirect } from "react-router-dom";
 import Joi from "joi-browser";
 import auth from "../services/authService";
 import Form from "./common/form";
@@ -27,7 +28,8 @@ class Login extends Form {
 
       await auth.login(data.email, data.password);
 
-      window.location = "/";
+      const { state } = this.props.location;
+      window.location = state ? state.from.pathname : "/";
     } catch (ex) {
       if (ex.response && ex.response.status === 400) {
         console.log(ex.response);
@@ -42,6 +44,10 @@ class Login extends Form {
   };
 
   render() {
+    if (auth.getCurrentUser()) {
+      return <Redirect to="/" />;
+    }
+
     return (
       <div
         className="container"

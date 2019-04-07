@@ -1,7 +1,7 @@
 import React from "react";
 import Joi from "joi-browser";
 import Form from "./common/form";
-
+import { toast } from "react-toastify";
 import { getCourse, saveCourse } from "../services/courseService";
 
 class CourseForm extends Form {
@@ -60,9 +60,16 @@ class CourseForm extends Form {
   }
 
   doSubmit = async () => {
-    await saveCourse(this.state.data);
-
-    this.props.history.push("/");
+    try {
+      await saveCourse(this.state.data);
+      toast.success("Course has been updated.");
+      this.props.history.push("/");
+    } catch (ex) {
+      if (ex.response && ex.response.status === 403) {
+        toast.error(ex.response.data.errorMessage);
+        this.props.history.push("/courses/" + this.state.data.id);
+      }
+    }
   };
 
   render() {

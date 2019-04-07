@@ -22,3 +22,7 @@ export function saveCourse(course) {
 
   return http.post(courseApiEndpoint, course);
 }
+
+export function deleteCourse(courseId) {
+  return http.delete(courseUrl(courseId));
+}
