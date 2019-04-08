@@ -10,9 +10,15 @@ class CourseDetails extends Component {
   };
 
   async componentDidMount() {
-    const { data: course } = await getCourse(this.props.match.params.id);
+    try {
+      const { data: course } = await getCourse(this.props.match.params.id);
 
-    this.setState({ course });
+      this.setState({ course });
+    } catch (ex) {
+      if (ex.response && ex.response.status === 404) {
+        this.props.history.replace("/notFound");
+      }
+    }
   }
 
   populateMaterials() {
@@ -47,6 +53,8 @@ class CourseDetails extends Component {
         this.props.history.push("/");
       } else if (ex.response && ex.response.status === 403) {
         toast.error(ex.response.data.errorMessage);
+      } else if (ex.response && ex.response.status === 404) {
+        this.props.history.push("/notFound");
       }
     }
   }

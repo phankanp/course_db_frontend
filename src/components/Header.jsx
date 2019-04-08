@@ -7,7 +7,7 @@ const AppHeader = ({ user }) => {
     <Navbar collapseOnSelect expand="lg" bg="primary" variant="dark">
       <Navbar.Brand className="navbar-brand" as={Link} to="/">
         <i
-          class="fa fa-book"
+          className="fa fa-book"
           aria-hidden="true"
           style={{ paddingRight: "6px" }}
         />

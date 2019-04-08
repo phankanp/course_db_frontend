@@ -7,7 +7,9 @@ function courseUrl(id) {
   return `${courseApiEndpoint}/${id}`;
 }
 
-export function getCourses() {}
+export function getCourses() {
+  return http.get(courseApiEndpoint);
+}
 
 export function getCourse(courseId) {
   return http.get(courseUrl(courseId));
