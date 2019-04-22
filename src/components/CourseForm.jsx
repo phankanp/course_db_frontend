@@ -68,6 +68,9 @@ class CourseForm extends Form {
       if (ex.response && ex.response.status === 403) {
         toast.error(ex.response.data.errorMessage);
         this.props.history.push("/courses/" + this.state.data.id);
+      } else if (ex.response && ex.response.status === 401) {
+        this.props.history.push("/logout");
+        toast.error(ex.response.data.errorMessage);
       }
     }
   };

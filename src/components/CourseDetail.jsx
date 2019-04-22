@@ -51,6 +51,9 @@ class CourseDetails extends Component {
       if (ex.response && ex.response.status === 404) {
         toast.error("Course has already been deleted");
         this.props.history.push("/");
+      } else if (ex.response && ex.response.status === 401) {
+        this.props.history.push("/logout");
+        toast.error(ex.response.data.errorMessage);
       } else if (ex.response && ex.response.status === 403) {
         toast.error(ex.response.data.errorMessage);
       } else if (ex.response && ex.response.status === 404) {
